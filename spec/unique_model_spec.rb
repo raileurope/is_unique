@@ -32,4 +32,26 @@ describe "A unique model" do
     lambda { new_record.save! }.
       should_not change(Location, :count)
   end
+
+  it "should return the existing record on creation" do
+    new_record = @it.clone
+    new_record.save!
+    new_record.should == @it
+  end
+
+  it "should allow to create a record with different attributes" do
+    new_record = @it.clone
+    new_record.name = 'Greater London'
+    lambda { new_record.save! }.
+      should change(Location, :count).by(1)
+    new_record.should_not == @it
+  end
+
+  it "should handle updates properly" do
+    new_record = @it.clone
+    @it.update_attribute(:name, 'Greater London')
+    lambda { new_record.save! }.
+      should change(Location, :count).by(1)
+    new_record.should_not == @it
+  end
 end

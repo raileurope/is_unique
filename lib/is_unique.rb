@@ -4,7 +4,15 @@ module IsUnique
   end
 
   module ClassMethods
-    def is_unique
+    def is_unique(options = {})
+
+      write_inheritable_attribute :is_unique_ignore, [
+        primary_key,
+        'unique_hash',
+        'created_at',
+        'updated_at'
+      ].concat(Array(options[:ignore]).map(&:to_s))
+ 
       self.class_eval do
         include InstanceMethods
 
@@ -32,11 +40,7 @@ module IsUnique
       end
 
       def unique_attributes
-        attributes.except(
-          self.class.primary_key,
-          'unique_hash',
-          'created_at', 'updated_at'
-        )
+        attributes.except(*self.class.read_inheritable_attribute(:is_unique_ignore))
       end
   end
 end

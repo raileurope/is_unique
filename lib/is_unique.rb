@@ -6,13 +6,16 @@ module IsUnique
   module ClassMethods
     def is_unique(options = {})
 
+      write_inheritable_attribute :is_unique_hash_column, options[:hash_column] || 'unique_hash'
+      class_inheritable_reader    :is_unique_hash_column
+
       write_inheritable_attribute :is_unique_ignore, [
         primary_key,
-        'unique_hash',
+        is_unique_hash_column.to_s,
         'created_at',
         'updated_at'
       ].concat(Array(options[:ignore]).map(&:to_s))
- 
+
       self.class_eval do
         include InstanceMethods
 
@@ -24,8 +27,16 @@ module IsUnique
   module InstanceMethods
     private
 
+      def is_unique_hash
+        send(self.class.is_unique_hash_column)
+      end
+
+      def is_unique_hash=(value)
+        send("#{self.class.is_unique_hash_column}=", value)
+      end
+
       def create
-        if existing = self.class.find_by_unique_hash(unique_hash)
+        if existing = self.class.find(:first, :conditions => {self.class.is_unique_hash_column => is_unique_hash})
           self.id = existing.id
           @new_record = false
           reload
@@ -36,7 +47,7 @@ module IsUnique
       end
 
       def calculate_unique_hash
-        self.unique_hash = unique_attributes.hash
+        self.is_unique_hash = unique_attributes.hash
       end
 
       def unique_attributes

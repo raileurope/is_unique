@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{is_unique}
-  s.version = "0.0.0"
+  s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eugene Bolshakov"]
@@ -13,10 +13,12 @@ Gem::Specification.new do |s|
   s.description = %q{Makes ActiveRecord return existing records instead of creating duplicates}
   s.email = %q{eugene.bolshakov@gmail.com}
   s.files = [
-    "VERSION",
+    "Rakefile",
+     "VERSION",
      "generators/is_unique/is_unique_generator.rb",
      "generators/is_unique/templates/is_unique_migration.rb",
      "init.rb",
+     "is_unique.gemspec",
      "lib/is_unique.rb",
      "spec/spec_helper.rb",
      "spec/support/db.rb",

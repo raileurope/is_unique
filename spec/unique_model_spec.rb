@@ -47,7 +47,7 @@ describe "A unique model" do
     new_record.should_not == @it
   end
 
-  it "should handle updates properly" do
+  it "should allow to create a record with original attributes when an existing record is updated" do
     new_record = @it.clone
     @it.update_attribute(:name, 'Greater London')
     lambda { new_record.save! }.

@@ -5,15 +5,19 @@
 
 Gem::Specification.new do |s|
   s.name = %q{is_unique}
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eugene Bolshakov"]
-  s.date = %q{2010-03-22}
+  s.date = %q{2010-03-24}
   s.description = %q{Makes ActiveRecord return existing records instead of creating duplicates}
   s.email = %q{eugene.bolshakov@gmail.com}
+  s.extra_rdoc_files = [
+    "README"
+  ]
   s.files = [
     ".gitignore",
+     "README",
      "Rakefile",
      "VERSION",
      "generators/is_unique/is_unique_generator.rb",

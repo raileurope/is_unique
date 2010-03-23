@@ -47,7 +47,7 @@ module IsUnique
       end
 
       def calculate_unique_hash
-        self.is_unique_hash = unique_attributes.hash
+        self.is_unique_hash = unique_attributes.sort_by{ |pair| pair.hash }.hash
       end
 
       def unique_attributes

@@ -1,6 +1,6 @@
 module IsUnique
   def self.included(base)
-    base.extend ClassMethods
+    base.extend IsUnique::ClassMethods
   end
 
   module ClassMethods
@@ -16,10 +16,12 @@ module IsUnique
         'updated_at'
       ].concat(Array(options[:ignore]).map(&:to_s))
 
-      self.class_eval do
-        include InstanceMethods
+      unless self.include?(IsUnique::InstanceMethods)
+        self.class_eval do
+          include IsUnique::InstanceMethods
 
-        before_save :calculate_unique_hash
+          before_save :calculate_unique_hash
+        end
       end
     end
   end

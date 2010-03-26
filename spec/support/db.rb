@@ -10,6 +10,7 @@ end
 def setup_db
   ActiveRecord::Schema.define(:version => 1) do
     create_table :locations do |t|
+      t.string     :type
       t.string     :name
       t.float      :lat, :lng
       t.string     :alias

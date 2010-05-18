@@ -25,8 +25,8 @@ describe "A unique model" do
     )
   end
 
-  it 'should have a 20 characters long unique hash' do
-    subject.unique_hash.length.should == 20
+  it 'should have a 40 characters long unique hash' do
+    subject.unique_hash.length.should == 40
   end
 
   it "should not create a new record with the same attributes" do

@@ -51,7 +51,7 @@ module IsUnique
       end
 
       def calculate_unique_hash
-        self.is_unique_hash = Digest::SHA1.digest(
+        self.is_unique_hash = Digest::SHA1.hexdigest(
           unique_attribute_names.inject('') do |r, e|
             r + "#{e}#{read_attribute_before_type_cast(e)}"
           end

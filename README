@@ -1,7 +1,7 @@
 Is Unique
 =========
 
-This is a simple ActiveRecord extension that makes sure that no duplicate records are added to the database. When you create a new model instance that already exists, it won't create a new record, but return the existing one instead. The extension generates a hash off the model attributes and use it to check for existing records. Of course, it ignores primary key, created_at, updated_at and other columns that you ask it to.
+This is a simple ActiveRecord extension that makes sure that no duplicate records are added to the database. When you create a new model instance that already exists, it won't create a new record, but will return the existing one instead. The extension generates a hash off the model attributes and use it to check for existing records. Of course, it ignores primary key, created_at, updated_at and other columns that you ask it to.
 
 Here's an example. Say you have a Location model and you want all your locations to be unique. When you add a new location you'd like to check whether it already exists and if it does, you don't want to create a new record.
 
@@ -21,14 +21,14 @@ class Location < ActiveRecord::Base
   is_unique
 end
 
-Then fire up console and try it:
+Then fire up the console and try it:
 
 >> l = Location.create(:name => 'London', :lat => '51.5', :lng => '-0.13', :alias => 'Londinium')
-  Location Load (0.4ms)   SELECT * FROM "locations" WHERE ("locations"."unique_hash" = 189338025) LIMIT 1
+  Location Load (0.4ms)   SELECT * FROM `locations` WHERE (`locations`.`unique_hash` = '...') LIMIT 1
   Location Create (0.6ms)   INSERT INTO "locations" ...
 => #<Location id: ...>
 >> l.clone.save
-  Location Load (0.7ms)   SELECT * FROM "locations" WHERE ("locations"."unique_hash" = 189338025) LIMIT 1
+  Location Load (0.7ms)   SELECT * FROM "locations" WHERE ("locations"."unique_hash" = '...') LIMIT 1
   Location Load (0.6ms)   SELECT * FROM "locations" WHERE ("locations"."id" = 1)
 => true
 
@@ -46,7 +46,7 @@ end
 >> n.alias = 'Something different'
 => "Something different"
 >> n.save
-  Location Load (0.7ms)   SELECT * FROM "locations" WHERE ("locations"."unique_hash" = 189338025) LIMIT 1
+  Location Load (0.7ms)   SELECT * FROM "locations" WHERE ("locations"."unique_hash" = '...') LIMIT 1
   Location Load (0.6ms)   SELECT * FROM "locations" WHERE ("locations"."id" = 2) 
 => true
 >> n == l

@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 module IsUnique
   def self.included(base)
     base.extend IsUnique::ClassMethods
@@ -49,11 +51,15 @@ module IsUnique
       end
 
       def calculate_unique_hash
-        self.is_unique_hash = unique_attributes.sort_by{ |pair| pair.hash }.hash
+        self.is_unique_hash = Digest::SHA1.digest(
+          unique_attribute_names.inject('') do |r, e|
+            r + "#{e}#{read_attribute_before_type_cast(e)}"
+          end
+        )
       end
 
-      def unique_attributes
-        attributes.except(*self.class.read_inheritable_attribute(:is_unique_ignore))
+      def unique_attribute_names
+        attribute_names - self.class.read_inheritable_attribute(:is_unique_ignore)
       end
   end
 end

@@ -14,7 +14,7 @@ def setup_db
       t.string     :name
       t.float      :lat, :lng
       t.string     :alias
-      t.integer    :unique_hash
+      t.string     :unique_hash, :length => 20
       t.timestamps
     end
   end

@@ -25,6 +25,10 @@ describe "A unique model" do
     )
   end
 
+  it 'should have a 20 character long unique hash' do
+    @it.unique_hash.length.should == 20
+  end
+
   it "should not create a new record with the same attributes" do
     new_record = @it.clone
     lambda { new_record.save! }.

@@ -7,7 +7,7 @@ begin
     gemspec.email = "eugene.bolshakov@gmail.com"
     gemspec.homepage = "http://github.com/loco2/is_unique"
     gemspec.authors = ["Eugene Bolshakov"]
-    gemspec.add_dependency 'activerecord', '2.3.5'
+    gemspec.add_dependency 'activerecord', '~>2.3'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
